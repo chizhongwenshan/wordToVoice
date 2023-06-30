@@ -11,12 +11,20 @@ let str = require('./text.js')
 let time = getTime()
 if (!fs.existsSync('./wav/'+time)) fs.mkdirSync('./wav/'+time);
 if (!fs.existsSync('./text')) fs.mkdirSync('./text');
-let exportfn = (text, random) => {
-  console.log(text, random);
-  const client = new AipSpeechClient(APP_ID, API_KEY, SECRET_KEY);
-  client.text2audio(text, { spd: 5, per:'5003'  }).then((result) => {
+let i=0;
+let count= 20
+const client = new AipSpeechClient(APP_ID, API_KEY, SECRET_KEY);
+let exportfn = async (arrRandom) => {
+  console.log('arrRandom',arrRandom,arr[arrRandom[i]],i);
+  // console.log(text, random);
+
+  await client.text2audio(' '+arr[arrRandom[i]]+' '+arr[arrRandom[i]]+' '+arr[arrRandom[i]], { spd: 3, per:'1',aue:'6'  }).then((result) => {
     if (result.data) {
-      fs.writeFileSync('./wav/'+time+'/'+random + ".wav", result.data);
+      fs.writeFileSync('./wav/'+time+'/'+i + ".wav", result.data,)
+      i++
+      if(count>i){
+        exportfn(arrRandom)
+      }
       console.log('语音保存成功！');
     } else {
       console.log('语音合成失败：' + JSON.stringify(result));
@@ -24,29 +32,18 @@ let exportfn = (text, random) => {
   }).catch((err) => {
     console.error('语音合成出错：', err);
   });
-  // say.export(
-  //   text,
-  //   "Microsoft Huihui Desktop",
-  //   0.5,
-  //   './wav/'+time+'/'+random + ".wav",
-  //   function (err) {
-  //     if (err) {
-  //       return console.error(err);
-  //     }
-  //     console.log(`Text has been saved to ${random}".wav"`);
-  //   }
-  // );
 };
 let arr = str.split(" ");
 console.log("arr", arr.length);
+
 let random = Math.floor(Math.random() * arr.length).toFixed(0);
 let arrRandom = [];
-while (arrRandom.length < 20) {
+while (arrRandom.length < count) {
   random = Math.floor(Math.random() * arr.length).toFixed(0);
   if (!arrRandom.includes(random)) {
     arrRandom.push(random);
     fs.writeFile(
-        './text/'+time+".js",
+        './text/'+time+".txt",
       arr[random] + arrRandom.length+'\n',
       {
         flag:'as',
@@ -54,14 +51,9 @@ while (arrRandom.length < 20) {
       },
       function (err) {}
     );
-    exportfn(" 下一个 " +arr[random] + " " + arr[random]+" " + arr[random], arrRandom.length);
+    if(arrRandom.length ===count ){
+      exportfn(arrRandom);
+    }
+   
   }
 }
-console.log("arrRandom", arrRandom);
-
-// 获取电脑安装的声音
-// function callback(err, data) {
-//   console.log("err", err);
-//   console.log("data", data);
-// }
-// say.getInstalledVoices(callback);
