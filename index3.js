@@ -9,10 +9,9 @@ async function main() {
         'url': 'https://tsn.baidu.com/text2audio',
         'headers': {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Accept': '*/*'
         },
         form: {
-                'tex':'任命阿斯兰的看法就阿斯利康的飞机',
+                'tex':'任命阿斯兰的康的飞机',
                 'tok': await getAccessToken(),
                 'cuid': '9RX4tpONg2PKYZUlxSh6kLdKC6t50TrL',
                 'ctp': '1',
@@ -28,7 +27,7 @@ async function main() {
     request(options, function (error, response) {
         if (error) throw new Error(error);
         console.log(111,response.body);
-        fs.writeFileSync("123.wav", response.body,function(){
+        fs.writeFileSync("123.MP3", response.body,function(){
             // i++
             // exportfn(arrRandom)
           });
@@ -48,7 +47,10 @@ function getAccessToken() {
     return new Promise((resolve, reject) => {
         request(options, (error, response) => {
             if (error) { reject(error) }
-            else { resolve(JSON.parse(response.body).access_token) }
+            else {
+                console.log('access_token',JSON.parse(response.body).access_token);
+                
+                 resolve(JSON.parse(response.body).access_token) }
         })
     })
 }
