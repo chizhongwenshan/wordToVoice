@@ -24,7 +24,7 @@ let arr = str.split(" ");
 console.log("arr", arr.length);
 let random = Math.floor(Math.random() * arr.length).toFixed(0);
 let arrRandom = [];
-while (arrRandom.length < 20) {
+while (arrRandom.length < 10) {
   random = Math.floor(Math.random() * arr.length).toFixed(0);
   if (!arrRandom.includes(random)) {
     arrRandom.push(random);
