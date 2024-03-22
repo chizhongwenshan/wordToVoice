@@ -8,7 +8,9 @@ const path = require("path");
 // var say = require("./say/index.js");
 const fs = require("fs"); //导入模块
 const getTime = require("./date.js");
-const filePath = './text.js'
+// const filePath = './text.js'
+const filePath = './english.js'
+// const filePath = './text-English.js'
 let str = require(filePath)
 const fileName = path.basename(filePath).replace('.js', '');
 console.log('fileName',fileName);
@@ -49,7 +51,7 @@ while (arrRandom.length < count) {
     arrRandom.push(random);
     fs.writeFile(
       './text/' + fileName + time + ".txt",
-      arr[random] + ' ' + arr[random] + ' ' + arr[random] + ' ' + '\n',
+      arr[random] + ' ' + arr[random] + ' ' + '\n',
       {
         flag: 'as',
         encoding: 'utf8'
