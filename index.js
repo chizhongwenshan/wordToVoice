@@ -1,17 +1,23 @@
 var say = require("./say/index.js");
 const fs = require("fs"); //导入模块
 const getTime = require("./date.js");
-let str = require('./text.js')
+const path = require("path");
+// const filePath = './text.js'
+const filePath = './english.js'
+// const filePath = './text-English.js'
+let str = require(filePath)
+const fileName = path.basename(filePath).replace('.js', '');
+console.log('fileName', fileName)
 let time = getTime()
-if (!fs.existsSync('./wav/'+time)) fs.mkdirSync('./wav/'+time);
+if (!fs.existsSync('./wav/' + time)) fs.mkdirSync('./wav/' + time);
 if (!fs.existsSync('./text')) fs.mkdirSync('./text');
 let exportfn = (text, random) => {
   console.log(text, random);
   say.export(
     text,
     "Microsoft Huihui Desktop",
-    0.5,
-    './wav/'+time+'/'+random + ".wav",
+    0.7,
+    './wav/' + time + '/' + random + ".wav",
     function (err) {
       if (err) {
         return console.error(err);
@@ -30,15 +36,15 @@ while (arrRandom.length < 10) {
     arrRandom.push(random);
 
     fs.writeFile(
-        './text/'+time+".js",
-      arr[random] + arrRandom.length+'\n',
+      './text/' + fileName + time + ".js",
+      arr[random] + " " + arr[random]  + " " + arr[random]  + " " + arr[random]  + " " + arr[random]  + '\n',
       {
-        flag:'as',
-        encoding :'utf8'
+        flag: 'as',
+        encoding: 'utf8'
       },
-      function (err) {}
+      function (err) { }
     );
-    exportfn(arr[random] + " " + arr[random]+" " + arr[random], arrRandom.length);
+    //exportfn(arr[random] +" " + arr[random]+" " + arr[random]+" " + arr[random]+" " + arr[random], arrRandom.length);
   }
 }
 console.log("arrRandom", arrRandom);
